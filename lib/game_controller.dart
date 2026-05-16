@@ -1,6 +1,7 @@
 class GameController {
   // الفيز 1: المصفوفة (0 هو الفراغ)
   List<int> board = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+  bool isWon = false;
 
   // الفيز 2: دالة الخلط
   void shuffleBoard() {
@@ -43,6 +44,7 @@ class GameController {
     for (int i = 0; i < board.length; i++) {
       if (board[i] != winOrder[i]) return false;
     }
+    isWon = true;
     return true;
   }
 }

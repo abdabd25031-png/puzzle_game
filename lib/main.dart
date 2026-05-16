@@ -4,6 +4,7 @@ void main() => runApp(const PuzzleGame());
 
 class GameController {
   List<int> board = [];
+  bool isWon = false;
 
   void shuffleBoard() {
     board = List.generate(16, (index) => index);
@@ -17,10 +18,19 @@ class GameController {
       int temp = board[index];
       board[index] = board[emptyIndex];
       board[emptyIndex] = temp;
+      checkWin();
       return true;
     }
 
     return false;
+  }
+  bool checkWin() {
+    for (int i = 0; i < board.length; i++) {
+      if (board[i] != i) return false;
+    }
+
+    isWon = true;
+    return true;
   }
 
   bool _isAdjacent(int idx1, int idx2) {
@@ -218,6 +228,20 @@ class _GamePageState extends State<GamePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
+        child: Column(
+            children: [
+
+            if (controller.isWon)
+        const Text(
+        "You Win 🎉",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: Colors.green,
+        ),
+      ),
+
+      Expanded(
         child: GridView.builder(
           itemCount: controller.board.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -295,6 +319,9 @@ class _GamePageState extends State<GamePage> {
               ),
             );
           },
+        ),
+      ),
+    ],
         ),
       ),
     );
